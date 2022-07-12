@@ -5,7 +5,9 @@ namespace ProEventos.Persistence
 {
     public class ProEventosContext : DbContext
     {
-        public ProEventosContext(DbContextOptions<ProEventosContext> options):base(options){}
+        public ProEventosContext(DbContextOptions<ProEventosContext> options):base(options){
+            
+        }
         
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Lote> Lotes { get; set; }
@@ -24,5 +26,6 @@ namespace ProEventos.Persistence
                 .OnDelete(DeleteBehavior.Cascade);
 
         }
+
     }
 }
