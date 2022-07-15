@@ -27,7 +27,7 @@ namespace ProEventos.Persistence
             }
 
             query = query.AsNoTracking().OrderBy(palestrante => palestrante.Id)
-                .Where(palestrante => palestrante.Nome == name);
+                .Where(palestrante => palestrante.User.PrimeiroNome == name);
             return await query.ToArrayAsync();
         }
 

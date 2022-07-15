@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace ProEventos.Application.Dtos
 {
     public class EventoDto {
@@ -27,6 +28,10 @@ namespace ProEventos.Application.Dtos
         
         [RegularExpression(pattern:@".*\.(jpe?g|png|bmp|gif)$")]
         public string ImageUrl { get; set; }
+
+        public int UserId { get; set; }
+
+        public UserDto User { get; set; }
         
         public IEnumerable<LoteDto> Lotes { get; set; }
         
