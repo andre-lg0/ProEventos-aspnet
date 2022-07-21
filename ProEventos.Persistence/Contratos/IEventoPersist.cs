@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ProEventos.Domain;
+using ProEventos.Persistence.Helpers;
 
 namespace ProEventos.Persistence.Contratos
 {
@@ -7,9 +8,9 @@ namespace ProEventos.Persistence.Contratos
     {
 
         //Eventos
-        Task<Evento[]> GetAllEventosByTemaASync(int userId, string tema, bool includePalestrantes);
-        Task<Evento> GetEventosByIdASync(int userId, int eventoId, bool includePalestrante);
-        Task<Evento[]> GetAllEventosAsync( int userId, bool includePalestrantes);
+        Task<PageList<Evento>> GetAllEventosAsync(int userId, PageParams pageParams, bool includePalestrantes);
+        Task<Evento> GetEventosByIdAsync(int userId, int eventoId, bool includePalestrante);
+        
         
 
     }

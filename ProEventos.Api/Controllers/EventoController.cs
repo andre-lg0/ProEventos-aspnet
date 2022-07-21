@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProEventos.Api.Extensions;
 using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
+using ProEventos.Persistence.Helpers;
 
 namespace ProEventos.Api.Controllers
 {
@@ -27,13 +28,15 @@ namespace ProEventos.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]PageParams pageParams)
         {
             try
             {
-                var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(),true);
+                var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(),pageParams,true);
                 if (eventos == null) return NoContent();
-
+                Response.AddPagination(eventos.CurrentPage,eventos.PageSize,eventos.TotalCount,
+                    eventos.TotalPage);
+                    
                 return Ok(eventos);
 
             }
@@ -65,26 +68,7 @@ namespace ProEventos.Api.Controllers
             }
         }
         
-        [HttpGet("tema/{tema}")]
-        public async Task<IActionResult> EventoByTema(string tema)
-        {
-            try
-            {
-                var eventos = await _eventoService.GetAllEventosbyTemaAsync(User.GetUserId(),tema, true);
-                if (eventos == null)
-                {
-                    return NoContent();
-                }
-
-                return Ok(eventos);
-            }
-            catch (Exception e)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar recuperar evento. Erro{e.Message}");
-            }
-        }
-
+       
         [HttpPost]
         public async Task<IActionResult> Post(EventoDto model)
         {

@@ -79,6 +79,9 @@ namespace ProEventos.Api
             services.AddScoped<ILotePersist, LotePersist>();
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IEventoPersist, EventosPersist>();
+
+            services.AddCors();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "ProEventos.Api", Version = "v1"});
@@ -128,11 +131,16 @@ namespace ProEventos.Api
 
             app.UseAuthorization();
 
+            app.UseCors(x => x.AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowAnyOrigin());
+
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             app.UseStaticFiles( new StaticFileOptions(){
                 FileProvider = new  PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
                 RequestPath = new PathString("/Resources")
+            
 
             });
         }
